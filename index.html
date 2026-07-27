@@ -6,14 +6,16 @@
     <title>Aprenda Inglês Montando Frases</title>
     <style>
         :root {
-            --bg: #0f172a;
-            --panel: #111827;
-            --accent: #38bdf8;
-            --accent-2: #f472b6;
+            --bg: #07111f;
+            --panel: rgba(255,255,255,0.08);
+            --accent: #7c3aed;
+            --accent-2: #ec4899;
+            --accent-3: #38bdf8;
             --text: #f8fafc;
             --muted: #cbd5e1;
             --success: #34d399;
             --danger: #fb7185;
+            --border: rgba(255,255,255,0.16);
         }
 
         * {
@@ -22,8 +24,11 @@
 
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #0f172a, #1d4ed8);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(124,58,237,0.35), transparent 25%),
+                radial-gradient(circle at bottom right, rgba(56,189,248,0.25), transparent 30%),
+                linear-gradient(135deg, var(--bg), #172554 60%, #0f172a);
             color: var(--text);
             min-height: 100vh;
             display: flex;
@@ -33,31 +38,36 @@
         }
 
         .app {
-            width: min(900px, 100%);
-            background: rgba(17, 24, 39, 0.95);
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 24px;
-            padding: 28px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: min(960px, 100%);
+            background: rgba(8, 15, 30, 0.82);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 30px;
+            box-shadow: 0 20px 70px rgba(0,0,0,0.35);
+            backdrop-filter: blur(16px);
         }
 
         h1 {
             margin-top: 0;
             margin-bottom: 8px;
             font-size: 2rem;
+            letter-spacing: 0.3px;
         }
 
         .subtitle {
             margin-top: 0;
             color: var(--muted);
-            line-height: 1.6;
+            line-height: 1.7;
+            font-size: 1rem;
         }
 
         .panel {
-            background: rgba(255,255,255,0.06);
-            border-radius: 16px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 18px;
             padding: 16px;
             margin-top: 16px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
         }
 
         select, button {
@@ -65,34 +75,39 @@
             border-radius: 999px;
             padding: 10px 14px;
             font-size: 1rem;
+            font-family: inherit;
         }
 
         select {
             width: 100%;
             background: white;
             color: #111827;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
         }
 
         .actions {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
-            margin-top: 12px;
+            margin-top: 14px;
         }
 
         button {
             cursor: pointer;
             color: white;
-            background: linear-gradient(90deg, var(--accent), var(--accent-2));
-            transition: transform 0.2s ease, opacity 0.2s ease;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3));
+            transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+            box-shadow: 0 8px 20px rgba(124,58,237,0.2);
         }
 
         button:hover {
             transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(124,58,237,0.25);
         }
 
         button.secondary {
-            background: #334155;
+            background: linear-gradient(90deg, #475569, #334155);
+            box-shadow: none;
         }
 
         .prompt {
@@ -110,12 +125,13 @@
         }
 
         .word-chip {
-            background: white;
+            background: linear-gradient(135deg, #ffffff, #e2e8f0);
             color: #111827;
             padding: 10px 12px;
             border-radius: 999px;
             cursor: pointer;
             font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.12);
         }
 
         .word-chip:disabled {
@@ -159,19 +175,20 @@
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
         .tab-btn {
-            background: #334155;
+            background: rgba(255,255,255,0.08);
             color: white;
             border-radius: 999px;
             padding: 8px 14px;
             font-size: 0.95rem;
+            border: 1px solid var(--border);
         }
 
         .tab-btn.active {
-            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3));
         }
 
         .tab-content {
@@ -184,6 +201,7 @@
 
         .verb-box {
             background: rgba(255,255,255,0.08);
+            border: 1px solid var(--border);
             border-radius: 16px;
             padding: 16px;
             margin-top: 12px;
@@ -197,12 +215,13 @@
         }
 
         .verb-card {
-            background: white;
+            background: linear-gradient(135deg, #ffffff, #f1f5f9);
             color: #111827;
             border-radius: 12px;
             padding: 12px;
             text-align: center;
             font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .mini-btn {
@@ -210,54 +229,107 @@
             padding: 8px 12px;
             font-size: 0.95rem;
         }
+
+        .hero {
+            margin-bottom: 16px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(124, 58, 237, 0.2);
+            color: #e9d5ff;
+            border: 1px solid rgba(124, 58, 237, 0.35);
+            border-radius: 999px;
+            padding: 7px 12px;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .stepper {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .step {
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.08);
+            color: var(--muted);
+            border: 1px solid var(--border);
+            font-size: 0.95rem;
+        }
+
+        .step.active {
+            background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3));
+            color: white;
+        }
+
+        .stage {
+            display: none;
+        }
+
+        .stage.active {
+            display: block;
+        }
+
+        .vocabulary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .word-card {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px;
+            color: white;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            min-height: 120px;
+        }
+
+        .word-card span {
+            color: #fef3c7;
+            font-size: 0.95rem;
+        }
+
+        .word-card small {
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+
+        .word-card.revealed {
+            border-color: rgba(56, 189, 248, 0.5);
+        }
     </style>
 </head>
 <body>
     <main class="app">
-        <div class="tabs">
-            <button class="tab-btn active" data-tab="practice">Praticar frases</button>
-            <button class="tab-btn" data-tab="verb">Verbo to be</button>
+        <div class="hero">
+            <div class="badge">Aprenda inglês passo a passo</div>
+            <h1>Do verbo to be às frases em inglês</h1>
+            <p class="subtitle">Primeiro entenda o verbo to be, depois veja palavras úteis e, por fim, pratique montando frases.</p>
         </div>
 
-        <section id="practice" class="tab-content active">
-            <h1>Pratique inglês montando frases</h1>
-            <p class="subtitle">Escolha uma frase em português e use as palavras em inglês para montar a versão correta.</p>
+        <div class="stepper">
+            <div class="step active" data-step="0">1. Verbo to be</div>
+            <div class="step" data-step="1">2. Palavras mais usadas</div>
+            <div class="step" data-step="2">3. Exercícios</div>
+        </div>
 
+        <section id="stepToBe" class="stage active">
             <div class="panel">
-                <label for="phraseSelect">Escolha uma frase</label>
-                <select id="phraseSelect"></select>
+                <h2>Entendendo o verbo to be</h2>
+                <p>O verbo <strong>to be</strong> significa <strong>ser</strong> ou <strong>estar</strong>. Ele é usado para descrever pessoas, lugares, estados e características.</p>
             </div>
 
-        <div class="panel">
-            <h2>Tradução em português</h2>
-            <p id="portuguesePrompt" class="prompt"></p>
-        </div>
-
-        <div class="panel">
-            <h3>Palavras em inglês</h3>
-            <div id="wordBank" class="word-bank"></div>
-        </div>
-
-        <div class="panel">
-            <h3>Frase montada</h3>
-            <div id="selectedWords" class="selected-slot"></div>
-        </div>
-
-        <div class="actions">
-            <button id="undoBtn">Remover última</button>
-            <button id="resetBtn" class="secondary">Recomeçar</button>
-            <button id="checkBtn">Verificar</button>
-        </div>
-
-        <p id="feedback" class="feedback"></p>
-        <p class="tip">Dica: clique nas palavras na ordem correta para formar a frase.</p>
-        </section>
-
-        <section id="verb" class="tab-content">
-            <h1>Entendendo o verbo to be</h1>
-            <p class="subtitle">O verbo to be significa “ser” ou “estar” em inglês. Ele muda conforme a pessoa e o tempo.</p>
-
-            <div class="verb-box">
+            <div class="panel">
                 <h3>Formas principais</h3>
                 <div class="verb-grid">
                     <div class="verb-card">I am</div>
@@ -270,18 +342,66 @@
                 </div>
             </div>
 
-            <div class="verb-box">
+            <div class="panel">
                 <h3>Exemplos</h3>
                 <p><strong>I am happy.</strong> — Eu estou feliz.</p>
                 <p><strong>She is at home.</strong> — Ela está em casa.</p>
                 <p><strong>We are students.</strong> — Nós somos estudantes.</p>
             </div>
 
-            <div class="verb-box">
-                <h3>Mini exercício</h3>
-                <p>Complete: <strong>I ___ tired.</strong></p>
-                <button class="mini-btn" id="answerBtn">Mostrar resposta</button>
-                <p id="answerText" style="display:none; margin-top:10px; color:#fef3c7;"><strong>Resposta:</strong> I am tired.</p>
+            <div class="actions">
+                <button class="next-btn">Próximo</button>
+            </div>
+        </section>
+
+        <section id="stepWords" class="stage">
+            <div class="panel">
+                <h2>Palavras mais usadas</h2>
+                <p>Clique em cada palavra para ver o significado e um exemplo.</p>
+                <div id="vocabularyGrid" class="vocabulary-grid"></div>
+            </div>
+
+            <div class="actions">
+                <button class="prev-btn secondary">Voltar</button>
+                <button class="next-btn">Próximo</button>
+            </div>
+        </section>
+
+        <section id="stepExercises" class="stage">
+            <h2>Exercícios</h2>
+            <p class="subtitle">Escolha uma frase em português e monte a versão em inglês com as palavras disponíveis.</p>
+
+            <div class="panel">
+                <label for="phraseSelect">Escolha uma frase</label>
+                <select id="phraseSelect"></select>
+            </div>
+
+            <div class="panel">
+                <h3>Tradução em português</h3>
+                <p id="portuguesePrompt" class="prompt"></p>
+            </div>
+
+            <div class="panel">
+                <h3>Palavras em inglês</h3>
+                <div id="wordBank" class="word-bank"></div>
+            </div>
+
+            <div class="panel">
+                <h3>Frase montada</h3>
+                <div id="selectedWords" class="selected-slot"></div>
+            </div>
+
+            <div class="actions">
+                <button id="undoBtn">Remover última</button>
+                <button id="resetBtn" class="secondary">Recomeçar</button>
+                <button id="checkBtn">Verificar</button>
+            </div>
+
+            <p id="feedback" class="feedback"></p>
+            <p class="tip">Dica: clique nas palavras na ordem correta para formar a frase.</p>
+
+            <div class="actions">
+                <button class="prev-btn secondary">Voltar</button>
             </div>
         </section>
     </main>
@@ -340,6 +460,19 @@
             }
         ];
 
+        const vocabulary = [
+            { word: 'I', meaning: 'eu', example: 'I am happy.' },
+            { word: 'you', meaning: 'você', example: 'You are kind.' },
+            { word: 'he', meaning: 'ele', example: 'He is tired.' },
+            { word: 'she', meaning: 'ela', example: 'She is at home.' },
+            { word: 'we', meaning: 'nós', example: 'We like pizza.' },
+            { word: 'like', meaning: 'gostar', example: 'I like music.' },
+            { word: 'want', meaning: 'querer', example: 'I want water.' },
+            { word: 'go', meaning: 'ir', example: 'We go to school.' },
+            { word: 'study', meaning: 'estudar', example: 'I study English.' },
+            { word: 'home', meaning: 'casa', example: 'She is at home.' }
+        ];
+
         const select = document.getElementById('phraseSelect');
         const portuguesePrompt = document.getElementById('portuguesePrompt');
         const wordBank = document.getElementById('wordBank');
@@ -348,11 +481,13 @@
         const undoBtn = document.getElementById('undoBtn');
         const resetBtn = document.getElementById('resetBtn');
         const checkBtn = document.getElementById('checkBtn');
-        const tabButtons = document.querySelectorAll('.tab-btn');
-        const tabContents = document.querySelectorAll('.tab-content');
-        const answerBtn = document.getElementById('answerBtn');
-        const answerText = document.getElementById('answerText');
+        const stages = document.querySelectorAll('.stage');
+        const steps = document.querySelectorAll('.step');
+        const nextButtons = document.querySelectorAll('.next-btn');
+        const prevButtons = document.querySelectorAll('.prev-btn');
+        const vocabularyGrid = document.getElementById('vocabularyGrid');
 
+        let currentStage = 0;
         let currentPhrase = null;
         let availableWords = [];
         let builtWords = [];
@@ -463,7 +598,36 @@
             }
         }
 
+        function renderVocabulary() {
+            vocabularyGrid.innerHTML = '';
+            vocabulary.forEach((item) => {
+                const card = document.createElement('button');
+                card.className = 'word-card';
+                card.innerHTML = `<strong>${item.word}</strong><span>${item.meaning}</span><small>${item.example}</small>`;
+                card.addEventListener('click', () => {
+                    card.classList.toggle('revealed');
+                    const span = card.querySelector('span');
+                    const small = card.querySelector('small');
+                    if (card.classList.contains('revealed')) {
+                        span.textContent = item.meaning;
+                        small.textContent = item.example;
+                    } else {
+                        span.textContent = 'clique para ver';
+                        small.textContent = 'exemplo';
+                    }
+                });
+                vocabularyGrid.appendChild(card);
+            });
+        }
+
+        function showStage(index) {
+            currentStage = index;
+            stages.forEach((stage, i) => stage.classList.toggle('active', i === index));
+            steps.forEach((step, i) => step.classList.toggle('active', i === index));
+        }
+
         renderOptions();
+        renderVocabulary();
         select.addEventListener('change', (event) => {
             startExercise(Number(event.target.value));
         });
@@ -471,20 +635,20 @@
         resetBtn.addEventListener('click', resetExercise);
         checkBtn.addEventListener('click', checkAnswer);
 
-        tabButtons.forEach((button) => {
+        nextButtons.forEach((button) => {
             button.addEventListener('click', () => {
-                tabButtons.forEach((btn) => btn.classList.remove('active'));
-                tabContents.forEach((content) => content.classList.remove('active'));
-                button.classList.add('active');
-                document.getElementById(button.dataset.tab).classList.add('active');
+                showStage(Math.min(currentStage + 1, stages.length - 1));
             });
         });
 
-        answerBtn.addEventListener('click', () => {
-            answerText.style.display = 'block';
+        prevButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                showStage(Math.max(currentStage - 1, 0));
+            });
         });
 
         startExercise(0);
+        showStage(0);
     </script>
 </body>
 </html>
