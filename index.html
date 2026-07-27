@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprenda Inglês Montando Frases</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --panel: #111827;
+            --accent: #38bdf8;
+            --accent-2: #f472b6;
+            --text: #f8fafc;
+            --muted: #cbd5e1;
+            --success: #34d399;
+            --danger: #fb7185;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1d4ed8);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+        }
+
+        .app {
+            width: min(900px, 100%);
+            background: rgba(17, 24, 39, 0.95);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 2rem;
+        }
+
+        .subtitle {
+            margin-top: 0;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .panel {
+            background: rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        select, button {
+            border: none;
+            border-radius: 999px;
+            padding: 10px 14px;
+            font-size: 1rem;
+        }
+
+        select {
+            width: 100%;
+            background: white;
+            color: #111827;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        button {
+            cursor: pointer;
+            color: white;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        button.secondary {
+            background: #334155;
+        }
+
+        .prompt {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 8px 0 0;
+            color: #fef3c7;
+        }
+
+        .word-bank, .selected-words {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .word-chip {
+            background: white;
+            color: #111827;
+            padding: 10px 12px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .word-chip:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .selected-slot {
+            min-height: 48px;
+            border: 2px dashed rgba(255,255,255,0.25);
+            border-radius: 12px;
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .feedback {
+            margin-top: 12px;
+            font-weight: bold;
+            min-height: 24px;
+        }
+
+        .feedback.success {
+            color: var(--success);
+        }
+
+        .feedback.error {
+            color: var(--danger);
+        }
+
+        .tip {
+            margin-top: 10px;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .tab-btn {
+            background: #334155;
+            color: white;
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-size: 0.95rem;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .verb-box {
+            background: rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 12px;
+        }
+
+        .verb-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .verb-card {
+            background: white;
+            color: #111827;
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .mini-btn {
+            margin-top: 10px;
+            padding: 8px 12px;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <main class="app">
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="practice">Praticar frases</button>
+            <button class="tab-btn" data-tab="verb">Verbo to be</button>
+        </div>
+
+        <section id="practice" class="tab-content active">
+            <h1>Pratique inglês montando frases</h1>
+            <p class="subtitle">Escolha uma frase em português e use as palavras em inglês para montar a versão correta.</p>
+
+            <div class="panel">
+                <label for="phraseSelect">Escolha uma frase</label>
+                <select id="phraseSelect"></select>
+            </div>
+
+        <div class="panel">
+            <h2>Tradução em português</h2>
+            <p id="portuguesePrompt" class="prompt"></p>
+        </div>
+
+        <div class="panel">
+            <h3>Palavras em inglês</h3>
+            <div id="wordBank" class="word-bank"></div>
+        </div>
+
+        <div class="panel">
+            <h3>Frase montada</h3>
+            <div id="selectedWords" class="selected-slot"></div>
+        </div>
+
+        <div class="actions">
+            <button id="undoBtn">Remover última</button>
+            <button id="resetBtn" class="secondary">Recomeçar</button>
+            <button id="checkBtn">Verificar</button>
+        </div>
+
+        <p id="feedback" class="feedback"></p>
+        <p class="tip">Dica: clique nas palavras na ordem correta para formar a frase.</p>
+        </section>
+
+        <section id="verb" class="tab-content">
+            <h1>Entendendo o verbo to be</h1>
+            <p class="subtitle">O verbo to be significa “ser” ou “estar” em inglês. Ele muda conforme a pessoa e o tempo.</p>
+
+            <div class="verb-box">
+                <h3>Formas principais</h3>
+                <div class="verb-grid">
+                    <div class="verb-card">I am</div>
+                    <div class="verb-card">You are</div>
+                    <div class="verb-card">He is</div>
+                    <div class="verb-card">She is</div>
+                    <div class="verb-card">It is</div>
+                    <div class="verb-card">We are</div>
+                    <div class="verb-card">They are</div>
+                </div>
+            </div>
+
+            <div class="verb-box">
+                <h3>Exemplos</h3>
+                <p><strong>I am happy.</strong> — Eu estou feliz.</p>
+                <p><strong>She is at home.</strong> — Ela está em casa.</p>
+                <p><strong>We are students.</strong> — Nós somos estudantes.</p>
+            </div>
+
+            <div class="verb-box">
+                <h3>Mini exercício</h3>
+                <p>Complete: <strong>I ___ tired.</strong></p>
+                <button class="mini-btn" id="answerBtn">Mostrar resposta</button>
+                <p id="answerText" style="display:none; margin-top:10px; color:#fef3c7;"><strong>Resposta:</strong> I am tired.</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const phrases = [
+            {
+                portuguese: 'Eu gosto de estudar inglês',
+                english: ['I', 'like', 'to', 'study', 'English'],
+                distractors: ['love', 'go', 'the', 'school', 'Japan']
+            },
+            {
+                portuguese: 'Ela está em casa',
+                english: ['She', 'is', 'at', 'home'],
+                distractors: ['He', 'are', 'in', 'school', 'car']
+            },
+            {
+                portuguese: 'Nós vamos ao mercado',
+                english: ['We', 'go', 'to', 'the', 'market'],
+                distractors: ['They', 'eat', 'a', 'park', 'room']
+            },
+            {
+                portuguese: 'Eu quero beber água',
+                english: ['I', 'want', 'to', 'drink', 'water'],
+                distractors: ['You', 'need', 'a', 'eat', 'food']
+            },
+            {
+                portuguese: 'Eles estão lendo um livro',
+                english: ['They', 'are', 'reading', 'a', 'book'],
+                distractors: ['She', 'write', 'the', 'music', 'pen']
+            },
+            {
+                portuguese: 'Eu tenho um cachorro bonito',
+                english: ['I', 'have', 'a', 'beautiful', 'dog'],
+                distractors: ['We', 'like', 'an', 'small', 'cat']
+            },
+            {
+                portuguese: 'Você pode abrir a janela',
+                english: ['You', 'can', 'open', 'the', 'window'],
+                distractors: ['They', 'must', 'close', 'door', 'room']
+            },
+            {
+                portuguese: 'Nós gostamos de comer pizza',
+                english: ['We', 'like', 'to', 'eat', 'pizza'],
+                distractors: ['I', 'love', 'a', 'drink', 'salad']
+            },
+            {
+                portuguese: 'Ele trabalha todos os dias',
+                english: ['He', 'works', 'every', 'day'],
+                distractors: ['She', 'plays', 'always', 'night']
+            },
+            {
+                portuguese: 'Eu estou aprendendo rapidamente',
+                english: ['I', 'am', 'learning', 'quickly'],
+                distractors: ['We', 'are', 'teach', 'slowly']
+            }
+        ];
+
+        const select = document.getElementById('phraseSelect');
+        const portuguesePrompt = document.getElementById('portuguesePrompt');
+        const wordBank = document.getElementById('wordBank');
+        const selectedWords = document.getElementById('selectedWords');
+        const feedback = document.getElementById('feedback');
+        const undoBtn = document.getElementById('undoBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const checkBtn = document.getElementById('checkBtn');
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const answerBtn = document.getElementById('answerBtn');
+        const answerText = document.getElementById('answerText');
+
+        let currentPhrase = null;
+        let availableWords = [];
+        let builtWords = [];
+
+        function shuffle(array) {
+            const copy = [...array];
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy;
+        }
+
+        function renderOptions() {
+            phrases.forEach((phrase, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = phrase.portuguese;
+                select.appendChild(option);
+            });
+        }
+
+        function startExercise(index) {
+            currentPhrase = phrases[index];
+            const allWords = [...currentPhrase.english, ...currentPhrase.distractors];
+            availableWords = shuffle(allWords);
+            builtWords = [];
+            feedback.textContent = '';
+            feedback.className = 'feedback';
+            renderWords();
+            renderBuiltWords();
+            portuguesePrompt.textContent = currentPhrase.portuguese;
+        }
+
+        function renderWords() {
+            wordBank.innerHTML = '';
+            availableWords.forEach((word) => {
+                const button = document.createElement('button');
+                button.className = 'word-chip';
+                button.textContent = word;
+                button.addEventListener('click', () => addWord(word));
+                wordBank.appendChild(button);
+            });
+        }
+
+        function renderBuiltWords() {
+            selectedWords.innerHTML = '';
+            if (builtWords.length === 0) {
+                selectedWords.innerHTML = '<span style="color:#cbd5e1;">Clique nas palavras para montar a frase.</span>';
+                return;
+            }
+
+            builtWords.forEach((word) => {
+                const chip = document.createElement('span');
+                chip.className = 'word-chip';
+                chip.textContent = word;
+                selectedWords.appendChild(chip);
+            });
+        }
+
+        function addWord(word) {
+            if (!currentPhrase) return;
+            if (builtWords.length >= currentPhrase.english.length) return;
+
+            builtWords.push(word);
+            availableWords = availableWords.filter((item) => item !== word);
+            renderWords();
+            renderBuiltWords();
+        }
+
+        function undoWord() {
+            if (builtWords.length === 0) return;
+            const lastWord = builtWords.pop();
+            availableWords.push(lastWord);
+            renderWords();
+            renderBuiltWords();
+            feedback.textContent = '';
+            feedback.className = 'feedback';
+        }
+
+        function resetExercise() {
+            builtWords = [];
+            const allWords = [...currentPhrase.english, ...currentPhrase.distractors];
+            availableWords = shuffle(allWords);
+            renderWords();
+            renderBuiltWords();
+            feedback.textContent = '';
+            feedback.className = 'feedback';
+        }
+
+        function checkAnswer() {
+            if (!currentPhrase) return;
+            if (builtWords.length !== currentPhrase.english.length) {
+                feedback.textContent = 'Você ainda precisa completar a frase.';
+                feedback.className = 'feedback error';
+                return;
+            }
+
+            const sentence = builtWords.join(' ');
+            const correct = currentPhrase.english.join(' ');
+
+            if (sentence === correct) {
+                feedback.textContent = 'Perfeito! Você montou a frase corretamente.';
+                feedback.className = 'feedback success';
+            } else {
+                feedback.textContent = `Quase lá! A resposta correta é: ${correct}`;
+                feedback.className = 'feedback error';
+            }
+        }
+
+        renderOptions();
+        select.addEventListener('change', (event) => {
+            startExercise(Number(event.target.value));
+        });
+        undoBtn.addEventListener('click', undoWord);
+        resetBtn.addEventListener('click', resetExercise);
+        checkBtn.addEventListener('click', checkAnswer);
+
+        tabButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach((btn) => btn.classList.remove('active'));
+                tabContents.forEach((content) => content.classList.remove('active'));
+                button.classList.add('active');
+                document.getElementById(button.dataset.tab).classList.add('active');
+            });
+        });
+
+        answerBtn.addEventListener('click', () => {
+            answerText.style.display = 'block';
+        });
+
+        startExercise(0);
+    </script>
+</body>
+</html>
